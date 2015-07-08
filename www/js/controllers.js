@@ -1,11 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, Tasklist, $ionicModal) {
+.controller('DashCtrl', function($scope, Tasklist, $ionicModal, $ionicActionSheet) {
   $scope.tasks = {};
 
   Tasklist.setRemoteDBSuffix('fmb');
   
-  var doRefresh = function() {
+  $scope.doRefresh = function() {
     Tasklist.get().then(function(res) {
       var tasks = {};
       console.log(res);
@@ -54,12 +54,29 @@ angular.module('starter.controllers', [])
 
   $scope.doSync = function() {
     Tasklist.sync().on('complete', function(info) {
-      doRefresh();
+      $scope.doRefresh();
       $scope.$broadcast('scroll.refreshComplete');
     }).on('error', function(err) {
       $scope.$broadcast('scroll.refreshComplete');
     });
   };
+
+  $scope.showActions = function(task) {
+    // Show the action sheet
+    var hideSheet = $ionicActionSheet.show({
+      buttons: [],
+      destructiveText: 'Stop Watching',
+      titleText: 'Task Actions',
+      cancelText: 'Cancel',
+      destructiveButtonClicked: function() {
+        Tasklist.delete(task).then(function(result) {
+          $scope.doRefresh();
+        });
+
+        return true;
+      }
+    });
+  }
 
   $scope.addTask = function() {
     if (!Number.isInteger($scope.task.taskID)){
@@ -71,7 +88,7 @@ angular.module('starter.controllers', [])
 
     Tasklist.add($scope.task).then(function(res) {
       $scope.closeModal();
-      doRefresh();
+      $scope.doRefresh();
       $scope.doSync();
     }).catch(function(err) {
       console.log(err);

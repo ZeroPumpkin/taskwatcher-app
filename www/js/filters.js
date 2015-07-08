@@ -6,7 +6,7 @@ angular.module('starter.filters', [])
       return task.taskID;
     }
     else {
-      return task.taskName + ' (' + task.taskID + ')';
+      return task.taskID + ': ' + task.taskName;
     }
   };
 })

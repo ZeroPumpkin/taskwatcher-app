@@ -24,6 +24,10 @@ angular.module('starter.services', [])
 
     add: function(task) {
       return localDB.put(task);
+    },
+
+    delete: function(task) {
+      return localDB.remove(task);
     }
   };
 })
