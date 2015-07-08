@@ -13,6 +13,8 @@ angular.module('starter.controllers', [])
         tasks[row.id] = row.doc;
       });
 
+      console.log('After mapping', tasks);
+
       $scope.$apply($scope.tasks = tasks);
     }).catch(function(err) {
       console.log(err);
@@ -40,12 +42,12 @@ angular.module('starter.controllers', [])
   };
 
   $scope.addTask = function() {
-    if (!Number.isInteger($scope.task.TaskID)){
-      console.log('specified task ID is not an integer');
+    if (!Number.isInteger($scope.task.taskID)){
+      console.log('specified task ID is not an integer', $scope.task.taskID);
       return;
     }
 
-    $scope.task._id = $scope.task.TaskID.toString();
+    $scope.task._id = $scope.task.taskID.toString();
 
     Tasklist.add($scope.task).then(function(res) {
       $scope.closeModal();

@@ -2,11 +2,11 @@ angular.module('starter.filters', [])
 
 .filter('taskHeader', function() {
   return function(task) {
-    if (task.TaskName == null) {
-      return task.TaskID;
+    if (task.taskName == null) {
+      return task.taskID;
     }
     else {
-      return task.TaskName + ' (' + task.TaskID + ')';
+      return task.taskName + ' (' + task.taskID + ')';
     }
   };
 })

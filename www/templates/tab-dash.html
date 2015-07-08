@@ -9,29 +9,29 @@
     </ion-refresher>
     <div class="card" ng-repeat="task in tasks">
       <div class="item item-divider">
-        <i class="item-icon ion-checkmark-circled balanced" ng-show="StatusHelper('positive', task.TaskStatus)"></i>
-        <i class="item-icon ion-help-circled energized" ng-show="StatusHelper('unknown', task.TaskStatus)"></i>
-        <i class="item-icon ion-alert-circled assertive" ng-show="StatusHelper('negative', task.TaskStatus)"></i>
-        <i class="item-icon ion-load-b positive" ng-show="StatusHelper('progress', task.TaskStatus)"></i>
+        <i class="item-icon ion-checkmark-circled balanced" ng-show="StatusHelper('positive', task.taskStatus)"></i>
+        <i class="item-icon ion-help-circled energized" ng-show="StatusHelper('unknown', task.taskStatus)"></i>
+        <i class="item-icon ion-alert-circled assertive" ng-show="StatusHelper('negative', task.taskStatus)"></i>
+        <i class="item-icon ion-load-b positive" ng-show="StatusHelper('progress', task.taskStatus)"></i>
         {{task | taskHeader}}
       </div>
       <div class="item item-text-wrap">
         <div>
           Release
           <span class="item-note">
-            {{task.TaskRelease || 'Unknown'}}
+            {{task.taskRelease || 'Unknown'}}
           </span>
         </div>
         <div>
           Status
           <span class="item-note">
-            {{task.TaskStatus || 'Unknown'}}
+            {{task.taskStatus || 'Unknown'}}
           </span>
         </div>
         <div>
           Last Updated
           <span class="item-note">
-            {{(task.LastUpdated | date:'medium') || 'Unknown'}}
+            {{(task.lastUpdated | date:'medium') || 'Unknown'}}
           </span>
         </div>
       </div>
@@ -48,7 +48,7 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Task ID</span>
-          <input type="number" ng-model="task.TaskID">
+          <input type="number" ng-model="task.taskID">
         </label>
       </div>
 
