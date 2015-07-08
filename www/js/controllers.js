@@ -71,6 +71,7 @@ angular.module('starter.controllers', [])
       destructiveButtonClicked: function() {
         Tasklist.delete(task).then(function(result) {
           $scope.doRefresh();
+          $scope.doSync();
         });
 
         return true;
