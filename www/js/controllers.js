@@ -21,15 +21,35 @@ angular.module('starter.controllers', [])
     });
   };
 
-  var statusMap = {
-    'positive': ['Integrated'],
-    'unknown': [''],
-    'progress': ['Integration Test Running'],
-    'negative': ['Integration Rejected (Eval)']
+  var statusClassMap = {
+    'item-icon ion-checkmark-circled balanced': ['Integrated'],
+    // 'item-icon ion-help-circled energized': [''],
+    'item-icon ion-load-b positive': ['Integration Test Running'],
+    'item-icon ion-alert-circled assertive': ['Integration Rejected (Eval)', 'Integration Rejected']
   };
 
-  $scope.StatusHelper = function(mood, status) {
-    return _.indexOf(statusMap[mood], status) != -1 || status == null && mood == 'unknown';
+  // var headerClassMap = {
+  //   'assertive': ['Integration Rejected (Eval)', 'Integration Rejected']
+  // }
+
+  $scope.StatusHelper = function(status, isHeader) {
+    var classes = "";
+    var classMap = null;
+
+    if (isHeader) {
+      // classes = ""; // Default
+      // classMap = headerClassMap;
+    }
+    else {
+      classes = "item-icon ion-help-circled energized"; // Default
+      classMap = statusClassMap;
+    }
+
+    _.each(classMap, function(value, key, list) {
+      if (_.indexOf(value, status) != -1) classes = key;
+    });
+
+    return classes;
   };
 
   $scope.doSync = function() {

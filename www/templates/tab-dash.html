@@ -9,10 +9,10 @@
     </ion-refresher>
     <div class="card" ng-repeat="task in tasks">
       <div class="item item-divider">
-        <i class="item-icon ion-checkmark-circled balanced" ng-show="StatusHelper('positive', task.taskStatus)"></i>
-        <i class="item-icon ion-help-circled energized" ng-show="StatusHelper('unknown', task.taskStatus)"></i>
+        <i ng-class="StatusHelper(task.taskStatus)"></i>
+        <!--<i class="item-icon ion-help-circled energized" ng-show="StatusHelper('unknown', task.taskStatus)"></i>
         <i class="item-icon ion-alert-circled assertive" ng-show="StatusHelper('negative', task.taskStatus)"></i>
-        <i class="item-icon ion-load-b positive" ng-show="StatusHelper('progress', task.taskStatus)"></i>
+        <i class="item-icon ion-load-b positive" ng-show="StatusHelper('progress', task.taskStatus)"></i>-->
         {{task | taskHeader}}
       </div>
       <div class="item item-text-wrap">
