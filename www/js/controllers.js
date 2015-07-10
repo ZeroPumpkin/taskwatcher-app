@@ -1,9 +1,9 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, Tasklist, $ionicModal, $ionicActionSheet) {
+.controller('DashCtrl', function($scope, Persist, Tasklist, $ionicModal, $ionicActionSheet) {
   $scope.tasks = {};
 
-  Tasklist.setRemoteDBSuffix('fmb');
+  Persist.setRemoteDBSuffix('fmb');
   
   $scope.doRefresh = function() {
     Tasklist.get().then(function(res) {
@@ -23,27 +23,16 @@ angular.module('starter.controllers', [])
 
   var statusClassMap = {
     'item-icon ion-checkmark-circled balanced': ['Integrated'],
-    // 'item-icon ion-help-circled energized': [''],
     'item-icon ion-load-b positive': ['Integration Test Running'],
     'item-icon ion-alert-circled assertive': ['Integration Rejected (Eval)', 'Integration Rejected']
   };
-
-  // var headerClassMap = {
-  //   'assertive': ['Integration Rejected (Eval)', 'Integration Rejected']
-  // }
 
   $scope.StatusHelper = function(status, isHeader) {
     var classes = "";
     var classMap = null;
 
-    if (isHeader) {
-      // classes = ""; // Default
-      // classMap = headerClassMap;
-    }
-    else {
-      classes = "item-icon ion-help-circled energized"; // Default
-      classMap = statusClassMap;
-    }
+    classes = "item-icon ion-help-circled energized"; // Default
+    classMap = statusClassMap;
 
     _.each(classMap, function(value, key, list) {
       if (_.indexOf(value, status) != -1) classes = key;
@@ -124,27 +113,12 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-  
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope) {
+.controller('SettingsCtrl', function($scope) {
   $scope.settings = {
-    enableFriends: true
+    autoWatch: true
+  };
+
+  $scope.updateSettings = function() {
+
   };
 });
