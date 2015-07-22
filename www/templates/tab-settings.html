@@ -1,4 +1,4 @@
-<ion-view view-title="Settings">
+<ion-view view-title="Settings" ng-init="getSettings()">
   <ion-content>
     <ion-list>
     <ion-toggle ng-model="settings.autoWatch" ng-change="updateSettings()">

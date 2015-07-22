@@ -42,7 +42,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.doSync = function() {
-    Tasklist.sync().on('complete', function(info) {
+    Persist.sync().on('complete', function(info) {
       $scope.doRefresh();
       $scope.$broadcast('scroll.refreshComplete');
     }).on('error', function(err) {
@@ -75,6 +75,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.task._id = $scope.task.taskID.toString();
+    $score.task.$doctype = 'adaiTask';
 
     Tasklist.add($scope.task).then(function(res) {
       $scope.closeModal();
@@ -113,12 +114,28 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('SettingsCtrl', function($scope) {
+.controller('SettingsCtrl', function($scope, Persist) {
   $scope.settings = {
-    autoWatch: true
+    autoWatch: false
+  };
+
+  $scope.getSettings = function() {
+    Persist.getLocalDB().get('settings').then(function(doc) {
+      $scope.$apply($scope.settings = doc);
+      console.log('got settings', $scope.settings);
+    }).catch(function(err) {
+      console.log('error while getting settings', err);
+    });
   };
 
   $scope.updateSettings = function() {
-
+    console.log('updating settings', $scope.settings);
+    Persist.getLocalDB().put($scope.settings, 'settings');
+    Persist.sync().then(function(res) {
+      console.log('settings sync was successful');
+    }).catch(function(err) {
+      console.log('error occurred during settings sync', err)
+    });
+    $scope.getSettings();
   };
 });

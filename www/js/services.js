@@ -13,25 +13,28 @@ angular.module('starter.services', [])
     },
 
     getLocalDB: function() {
+      if (!localDB) console.error('localDB is not defined');
       return localDB;
     },
 
     getRemoteDB: function() {
+      if (!remoteDB) console.error('remoteDB is not defined');
       return remoteDB;
+    },
+
+    sync: function() {
+      return localDB.sync(remoteDB);
     }
   };
 })
 
 .factory('Tasklist', function(Persist) {
   return {
-    sync: function() {
-      return Persist.getLocalDB().sync(remoteDB);
-    },
-
     get: function() {
-      return Persist.getLocalDB().allDocs({
+      /*return Persist.getLocalDB().allDocs({
         include_docs: true
-      });
+      });*/
+      return Persist.getLocalDB().query('tasks/tasks', { include_docs: true });
     },
 
     add: function(task) {
@@ -43,9 +46,3 @@ angular.module('starter.services', [])
     }
   };
 })
-
-.factory('Settings', function(Persist) {
-  return {
-    
-  };
-});
