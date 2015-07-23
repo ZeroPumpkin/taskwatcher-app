@@ -75,7 +75,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.task._id = $scope.task.taskID.toString();
-    $score.task.$doctype = 'adaiTask';
+    $scope.task.$doctype = 'adaiTask';
 
     Tasklist.add($scope.task).then(function(res) {
       $scope.closeModal();
