@@ -1,9 +1,12 @@
 <ion-view view-title="Settings" ng-init="getSettings()">
   <ion-content>
     <ion-list>
-    <ion-toggle ng-model="settings.autoWatch" ng-change="updateSettings()">
-        Watch my tasks automatically
-    </ion-toggle>
+	    <ion-toggle ng-model="settings.autoWatch" ng-change="updateSettings()">
+	        Watch my tasks automatically
+	    </ion-toggle>
+	    <ion-toggle ng-model="settings.autoSync" ng-change="updateSettings()">
+	        Sync automatically
+	    </ion-toggle>
     </ion-list>
   </ion-content>
 </ion-view>

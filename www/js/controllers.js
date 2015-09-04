@@ -1,9 +1,21 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, Persist, Tasklist, $ionicModal, $ionicActionSheet) {
+.controller('DashCtrl', function($scope, Persist, Tasklist, $ionicModal, $ionicActionSheet, Settings) {
   $scope.tasks = {};
 
   Persist.setRemoteDBSuffix('fmb');
+
+  $scope.init = function() {
+    Settings.getSettings().then(function(settings) {
+      if (settings.autoSync) {
+        Persist.startAutoSync($scope.autoSyncHandler);
+      }
+    });
+  };
+
+  $scope.autoSyncHandler = function(info) {
+    $scope.doRefresh();
+  };
   
   $scope.doRefresh = function() {
     Tasklist.get().then(function(res) {
@@ -114,28 +126,23 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('SettingsCtrl', function($scope, Persist) {
+.controller('SettingsCtrl', function($scope, Persist, Settings, $timeout) {
   $scope.settings = {
     autoWatch: false
+   ,autoSync:  false
   };
 
   $scope.getSettings = function() {
-    Persist.getLocalDB().get('settings').then(function(doc) {
-      $scope.$apply($scope.settings = doc);
-      console.log('got settings', $scope.settings);
-    }).catch(function(err) {
-      console.log('error while getting settings', err);
+    Settings.getSettings().then(function(settings) {
+      console.debug('settings obj', settings);
+      $timeout(function() {
+        $scope.$apply($scope.settings = settings);
+      }, 0);
     });
   };
 
   $scope.updateSettings = function() {
-    console.log('updating settings', $scope.settings);
-    Persist.getLocalDB().put($scope.settings, 'settings');
-    Persist.sync().then(function(res) {
-      console.log('settings sync was successful');
-    }).catch(function(err) {
-      console.log('error occurred during settings sync', err)
-    });
+    Settings.updateSettings($scope.settings);
     $scope.getSettings();
   };
 });
